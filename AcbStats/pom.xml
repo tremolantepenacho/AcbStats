@@ -31,7 +31,15 @@
    	<dependency>
    		<groupId>org.hibernate</groupId>
    		<artifactId>hibernate-entitymanager</artifactId>
-   		<version>5.0.2.Final</version>
+   		<version>4.1.0.Final</version>
   	</dependency>
+ <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	<dependency>
+    	<groupId>org.postgresql</groupId>
+    	<artifactId>postgresql</artifactId>
+    	<version>42.2.2</version>
+	</dependency>
+
+ 
   </dependencies>
 </project>

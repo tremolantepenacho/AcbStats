@@ -1,4 +1,4 @@
-package org.hecarap.AcbStats.scrap;
+package org.hecarap.acbstats.scrap;
 
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -26,19 +26,19 @@ public class ScrapPaginaWeb {
 	/**
 	 * Este método comprueba el Status code de la respuesta que se recibe al hacer la petición
 	 * EJM:
-	 * 		200 OK			
+	 * 		200 OK
 	 * 		300 Multiple Choices
 	 * 		301 Moved Permanently	
 	 * 		305 Use Proxy
-	 * 		400 Bad Request		
+	 * 		400 Bad Request	
 	 * 		403 Forbidden
-	 * 		404 Not Found		
+	 * 		404 Not Found
 	 * 		500 Internal Server Error
-	 * 		502 Bad Gateway		
+	 * 		502 Bad Gateway
 	 * 		503 Service Unavailable
 	 * @return Status Code
 	 */
-	public int getStatusConnectionCode() {
+	public final int getStatusConnectionCode() {
 			
 	    Response response = null;
 		
@@ -52,10 +52,10 @@ public class ScrapPaginaWeb {
 
 	/**
 	 * Este método devuelve un objeto de la clase Document con el contenido del
-	 * HTML de la web 
+	 * HTML de la web
 	 * @return Documento con el HTML
 	 */
-	public Document getHtmlDocument() {
+	public final Document getHtmlDocument() {
 
 	    Document doc = null;
 		try {

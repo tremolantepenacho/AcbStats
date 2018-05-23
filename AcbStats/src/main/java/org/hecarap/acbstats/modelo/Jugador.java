@@ -1,15 +1,47 @@
-package org.hecarap.AcbStats.modelo;
+package org.hecarap.acbstats.modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Jugador {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	String codigo,nombre, nacionalidad, lugarNacimiento;
-	double altura;
-	Posicion posicion;
-	Pasaporte pasaporte;
-	Date fechaNacimiento;
+@Entity
+@Table(name="Jugador")
+public class Jugador implements Serializable {
+
+	@Id
+	@Column(name="Id")
+	private String codigo;
 	
+	@Column(name="nombre")
+	private String nombre;
+	
+	@Column(name="nacionalidad")
+	private String nacionalidad;
+	
+	@Column(name="lugarNacimiento")
+	private String lugarNacimiento;
+	 
+	 @Column(name="altura")
+	 private double altura;
+	 
+	 @Enumerated(EnumType.ORDINAL)
+	 private Posicion posicion;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private Pasaporte pasaporte;
+	
+	@Column(name="fechaNacimiento")
+	private Date fechaNacimiento;
+	
+	public Jugador() {
+		
+	}
 	
 	public Jugador(String codigo,String nombre, String nacionalidad, String lugarNacimiento, double altura, Posicion posicion,
 			Pasaporte pasaporte, Date fechaNacimiento) {
