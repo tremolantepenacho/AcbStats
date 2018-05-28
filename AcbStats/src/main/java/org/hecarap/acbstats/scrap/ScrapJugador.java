@@ -45,23 +45,23 @@ public class ScrapJugador {
 		return new Jugador(codigo,nombre,nacionalidad,lugarNacimiento,altura,pos,pass,fechaNacimiento);
 	}
 	
-	public String getNombre(Element e) {
+	private String getNombre(Element e) {
 		return e.text();
 		}
-	public String getLugarNacimiento(Element e) {
+	private String getLugarNacimiento(Element e) {
 		String[] aux= e.text().split(",");
 		return aux[0];
 	}
 	
 	@SuppressWarnings("deprecation")
-	public Date getFechaNacimiento(Element e) {
+	private Date getFechaNacimiento(Element e) {
 		String[] aux= e.text().split(",");
 		String[] fechas= aux[1].split("/");
 		return new Date(Integer.parseInt(fechas[2])-1900,Integer.parseInt(fechas[1])-1,Integer.parseInt(fechas[0].trim()));
 		
 	}
 	
-	public Posicion getPosicion(Element e) {
+	private Posicion getPosicion(Element e) {
 		String[] aux= e.text().split("\\|");
 		aux[0]= aux[0].trim();
 		if (aux[0].equals("B")) return Posicion.BASE;
@@ -72,18 +72,18 @@ public class ScrapJugador {
 		
 	}
 	
-	public double getAltura(Element e) {
+	private double getAltura(Element e) {
 		String[] aux= e.text().split("\\|");
 		String[] alt= aux[1].split(" ");
 		return Double.parseDouble(alt[1]);
 	}
 	
-	public String getNacionalidad(Element e) {
+	private String getNacionalidad(Element e) {
 		String[] aux= e.text().split("\\|");
 		return aux[0].trim();
 	}
 	
-	public Pasaporte getPasaporte(Element e) {
+	private Pasaporte getPasaporte(Element e) {
 		String[] aux= e.text().split("\\|");
 		aux[1]= aux[1].trim();	
 		if (aux[1].equals("EUR")) return Pasaporte.EUROPEO;
