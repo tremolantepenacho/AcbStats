@@ -1,4 +1,4 @@
-package org.hecarap.acbstats;
+package org.hecarap.acbstats.vista;
 
 
 import org.hecarap.acbstats.modelo.Jugador;
@@ -15,6 +15,8 @@ public class App
     	ScrapPaginaWeb prueba=new ScrapPaginaWeb("http://www.acb.com/fichas/LACB62001.php");
      	ScrapPartido partScrap=new ScrapPartido(prueba.getHtmlDocument());
      	Partido part=partScrap.getPartido();
+     	ScrapPartidoJugador partidoJugador=new ScrapPartidoJugador(prueba.getHtmlDocument());
+     	partidoJugador.obtenJugadores();
      	System.out.println(part);
      	
     	/*new org.hibernate.tool.hbm2ddl.SchemaExport(HibernateUtil.getConfiguration()).setOutputFile("script.sql").setDelimiter(";").create(true, true);

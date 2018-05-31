@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 
 public class ScrapPartido {
 	
-	private Document partido;
+	private Document web;
 	private int temporada;
 	private int jornada;
 	private Date fecha;
@@ -27,7 +27,7 @@ public class ScrapPartido {
 	private int puntosVisitante;
 	
 	public ScrapPartido(Document partido) {
-		this.partido=partido;
+		this.web=partido;
 		String[] aux=partido.location().split("LACB");
 		String temp=aux[1].substring(0,2);
 		temporada=Integer.parseInt(temp);
@@ -99,7 +99,7 @@ public class ScrapPartido {
 	
 	public Partido getPartido() {
 			
-		
+				
 		datosPartido=obtenDatosPartido();
 		jornada=obtenJornada(datosPartido);
 		fecha=obtenFechaPartido(datosPartido);
@@ -114,10 +114,10 @@ public class ScrapPartido {
 		
 		return new Partido(equipoLocal,puntosLocal,equipoVisitante,puntosVisitante,temporada,jornada,fecha,hora,pabellon,publico);
 	}
-
+	
 	private String obtenLocal() {
 		String local=null;
-		Elements entradas = partido.getElementsByClass("estverdel");
+		Elements entradas = web.getElementsByClass("estverdel");
 		Element datos=entradas.get(0);
 		for (Node child : datos.childNodes()) {
 		    if (child instanceof TextNode) {
@@ -133,7 +133,7 @@ public class ScrapPartido {
 	
 	private int obtenPuntosLocal() {
 		String local=null;
-		Elements entradas = partido.getElementsByClass("estverdel");
+		Elements entradas = web.getElementsByClass("estverdel");
 		Element datos=entradas.get(0);
 		for (Node child : datos.childNodes()) {
 		    if (child instanceof TextNode) {
@@ -149,7 +149,7 @@ public class ScrapPartido {
 	
 	private int obtenPuntosVisitante() {
 		String visitante=null;
-		Elements entradas = partido.getElementsByClass("estverdel");		
+		Elements entradas = web.getElementsByClass("estverdel");		
 		Element datos=entradas.get(1);
 		for (Node child : datos.childNodes()) {
 		    if (child instanceof TextNode) {
@@ -164,7 +164,7 @@ public class ScrapPartido {
 	
 	private String obtenVisitante() {
 		String visitante=null;
-		Elements entradas = partido.getElementsByClass("estverdel");
+		Elements entradas = web.getElementsByClass("estverdel");
 		
 		Element datos=entradas.get(1);
 		for (Node child : datos.childNodes()) {
@@ -180,7 +180,7 @@ public class ScrapPartido {
 	private String obtenDatosPartido() {
 		
 		String datos=null;
-		Elements entradas = partido.getElementsByClass("estnegro");
+		Elements entradas = web.getElementsByClass("estnegro");
 		
 		for (Element elem : entradas) {
 					List<Node> nodos=elem.childNodes();

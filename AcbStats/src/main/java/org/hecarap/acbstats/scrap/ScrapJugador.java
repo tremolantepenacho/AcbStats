@@ -15,10 +15,10 @@ public class ScrapJugador {
 	Document jugador;
 	String codigo;
 
-	public ScrapJugador(Document player) {
-		String[] aux=player.location().split("=");
+	public ScrapJugador(Document jugador) {
+		String[] aux=jugador.location().split("=");
 		codigo= aux[1];
-		this.jugador = player;
+		this.jugador = jugador;
 	}
 	
 	
