@@ -1,12 +1,11 @@
 package org.hecarap.acbstats.scrap;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.swing.text.AsyncBoxView.ChildState;
-
-import org.hecarap.acbstats.modelo.Jugador;
+import org.hecarap.acbstats.controlador.Controlador;
 import org.hecarap.acbstats.modelo.PartidoJugador;
-import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -43,18 +42,36 @@ public class ScrapPartidoJugador {
 	}
 	
 	
-	public void obtenJugadores() {
+	public void obtenPartidosJugadores() {
 			
 			Elements entradas=web.getElementsByClass("naranjaclaro");
 			for (Element jugador : entradas) {
+					if (tieneEnlaceJugador(jugador.childNode(0)) && !existeJugador(jugador)) {
+						insertaJugador(jugador.childNode(0).attr("href"));
+					}
 					Elements padre=jugador.parent().children();
-					System.out.println("------------------------------------------------------------");
-					PartidoJugador nuevo=creaJugador(padre);
-					System.out.println(nuevo);
+					PartidoJugador nuevoPartidoJugador=creaPartidoJugador(padre);
+					if (nuevoPartidoJugador!=null) {
+						Controlador.insertaPartidoJugador(nuevoPartidoJugador);
+					}
 			}
 		}
 	
-	private PartidoJugador creaJugador(Elements datosJugador) {
+	private boolean existeJugador(Element jugador) {
+		return false;
+		
+	}
+	
+	private void insertaJugador(String direccion) {
+		if (!direccion.contains("www.acb.com")) {
+			direccion="http://www.acb.com"+direccion;
+		}
+		ScrapJugador jugador=new ScrapJugador(direccion);
+		Controlador.insertaJugador(jugador.getJugador());
+		
+	}
+	
+	private PartidoJugador creaPartidoJugador(Elements datosJugador) {
 			
 		if (haParticipado(datosJugador)) {
 			String id=obtenIdJugador(datosJugador);

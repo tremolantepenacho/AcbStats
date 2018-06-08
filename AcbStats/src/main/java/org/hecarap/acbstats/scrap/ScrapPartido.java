@@ -97,7 +97,7 @@ public class ScrapPartido {
 	}
 	
 	
-	public Partido getPartido() {
+	public Partido obtenPartido() {
 			
 				
 		datosPartido=obtenDatosPartido();

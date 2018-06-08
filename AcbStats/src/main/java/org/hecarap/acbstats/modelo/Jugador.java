@@ -2,12 +2,15 @@ package org.hecarap.acbstats.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +18,7 @@ import javax.persistence.Table;
 public class Jugador implements Serializable {
 
 	@Id
-	@Column(name="Id")
+	@Column(name="Id",unique=true)
 	private String codigo;
 	
 	@Column(name="nombre")
@@ -27,17 +30,20 @@ public class Jugador implements Serializable {
 	@Column(name="lugarNacimiento")
 	private String lugarNacimiento;
 	 
-	 @Column(name="altura")
-	 private double altura;
+	@Column(name="altura")
+	private double altura;
 	 
-	 @Enumerated(EnumType.ORDINAL)
-	 private Posicion posicion;
+	@Enumerated(EnumType.ORDINAL)
+	private Posicion posicion;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Pasaporte pasaporte;
 	
 	@Column(name="fechaNacimiento")
 	private Date fechaNacimiento;
+	
+	@OneToMany(mappedBy="jugador",cascade= CascadeType.ALL)
+	private Set<PartidoJugador> partidos;
 	
 	public Jugador() {
 		

@@ -3,28 +3,93 @@ package org.hecarap.acbstats.modelo;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="PartidoJugador")
 public class PartidoJugador implements Serializable {
 
+	
+	@Id
+	@Column(name="Id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="idJugador",unique=true)
 	private String idJugador;
+	
+	@Column(name="minutos")
 	private Date minutos;
+	
+	@Column(name="puntos")
 	private int puntos;
+	
+	@Column(name="intentosUno")
 	private int intentosUno;
+	
+	@Column(name="canastasUno")
 	private int canastasUno;
+	
+	@Column(name="intentosDos")
 	private int intentosDos;
+	
+	@Column(name="canastasDps")
 	private int canastasDos;
+	
+	@Column(name="intentosTres")
 	private int intentosTres;
+	
+	@Column(name="canastasTres")
 	private int canastasTres;
+	
+	@Column(name="rebotesOfensivos")
 	private int rebotesOfensivos;
+	
+	@Column(name="rebotesDefensivos")
 	private int rebotesDefensivos;
+	
+	@Column(name="rebotes")
 	private int rebotes;
+	
+	@Column(name="asistencias")
 	private int asistencias;
+	
+	@Column(name="robos")
 	private int robos;
+	
+	@Column(name="perdidas")
 	private int perdidas;
+	
+	@Column(name="taponesFavor")
 	private int taponesFavor;
+	
+	@Column(name="taponesContra")
 	private int taponesContra;
+	
+	@Column(name="faltasFavor")
 	private int faltasFavor;
+	
+	@Column(name="faltasContra")
 	private int faltasContra;
+	
+	@Column(name="valoracion")
 	private int valoracion;
+	
+	@ManyToOne
+	@JoinColumn(name="jugador")
+	private Jugador jugador;
+	
+	@ManyToOne
+	@JoinColumn(name="partido")
+	private Partido partido;
 	
 		
 	public PartidoJugador() {

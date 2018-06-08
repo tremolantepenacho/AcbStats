@@ -2,19 +2,59 @@ package org.hecarap.acbstats.modelo;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="Partido")
 public class Partido {
 
+	@Id
+	@Column(name="Id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="temporada")
 	private int temporada;
+	
+	@Column(name="jornada")
 	private int jornada;
+	
+	@Column(name="fecha")
 	private Date fecha;
+	
+	@Column(name="hora")
 	private Time hora;
+	
+	@Column(name="pabellon")
 	private String pabellon;
+	
+	@Column(name="publico")
 	private int publico;
+	
+	@Column(name="local")
 	private String local;
+	
+	@Column(name="visitante")
 	private String visitante;
+	
+	@Column(name="puntosLocal")
 	private int puntosLocal;
+	
+	@Column(name="puntosVisitante")
 	private int puntosVisitante;
+	
+	@OneToMany(mappedBy="partido",cascade= CascadeType.ALL)
+	private Set<PartidoJugador> jugadores;
 	
 	public Partido(String local, int puntosLocal, String visitante, int puntosVisitante, int temporada,int jornada, Date fecha, Time hora, String pabellon, int publico) {
 		this.local=local;

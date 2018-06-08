@@ -21,6 +21,18 @@ public class ScrapJugador {
 		this.jugador = jugador;
 	}
 	
+	public ScrapJugador(String direccion) {
+		if (!direccion.contains("www.acb.com")) {
+			direccion="http://www.acb.com"+direccion;
+		}
+		ScrapPaginaWeb paginaWeb=new ScrapPaginaWeb(direccion);//"http://www.acb.com/jugador.php?id=217");
+		Document jugador=paginaWeb.getHtmlDocument();
+		String[] aux=jugador.location().split("=");
+		codigo= aux[1];
+		this.jugador = jugador;
+		
+	}
+	
 	
 	
 	
@@ -56,7 +68,7 @@ public class ScrapJugador {
 	@SuppressWarnings("deprecation")
 	private Date getFechaNacimiento(Element e) {
 		String[] aux= e.text().split(",");
-		String[] fechas= aux[1].split("/");
+		String[] fechas= aux[aux.length-1].split("/");
 		return new Date(Integer.parseInt(fechas[2])-1900,Integer.parseInt(fechas[1])-1,Integer.parseInt(fechas[0].trim()));
 		
 	}
