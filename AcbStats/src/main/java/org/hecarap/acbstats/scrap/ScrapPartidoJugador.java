@@ -58,7 +58,9 @@ public class ScrapPartidoJugador {
 		}
 	
 	private boolean existeJugador(Element jugador) {
-		return false;
+		
+		String id=obtenIdJugador(jugador);
+		return Controlador.existeJugador(id);
 		
 	}
 	
@@ -104,6 +106,18 @@ public class ScrapPartidoJugador {
 		Element fila=datos.get(1);
 		String res="";
 		for (Node enlace : fila.childNodes()) {
+			if (tieneEnlaceJugador(enlace)){
+				String[] aux=enlace.toString().split("\"");
+				String[] temp=aux[1].split("=");
+				return temp[1];
+			}
+		}
+		return res;
+	}
+	
+	private String obtenIdJugador(Element datos) {
+		String res="";
+		for (Node enlace : datos.childNodes()) {
 			if (tieneEnlaceJugador(enlace)){
 				String[] aux=enlace.toString().split("\"");
 				String[] temp=aux[1].split("=");

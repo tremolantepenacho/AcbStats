@@ -23,7 +23,7 @@ public class PartidoJugador implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="idJugador",unique=true)
+	@Column(name="idJugador")
 	private String idJugador;
 	
 	@Column(name="minutos")

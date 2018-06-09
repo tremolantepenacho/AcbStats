@@ -1,12 +1,16 @@
 package org.hecarap.acbstats.controlador;
 
+import java.util.List;
+
 import org.hecarap.acbstats.modelo.Jugador;
 import org.hecarap.acbstats.modelo.Partido;
 import org.hecarap.acbstats.modelo.PartidoJugador;
 import org.hecarap.acbstats.scrap.ScrapPaginaWeb;
 import org.hecarap.acbstats.scrap.ScrapPartido;
 import org.hecarap.acbstats.scrap.ScrapPartidoJugador;
+import org.hecarap.acbstats.scrap.ScrapTemporada;
 import org.hecarap.hibernate.HibernateUtil;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class Controlador {
@@ -69,14 +73,29 @@ public static void insertaPartidoJugador(PartidoJugador nuevo) {
 		new org.hibernate.tool.hbm2ddl.SchemaExport(HibernateUtil.getConfiguration()).setOutputFile("script.sql").setDelimiter(";").create(true, true);
 	}
 	
-	public static void insertaJornada(String enlaceJornada) {
+	public static void insertaJornada(String enlaceTemporada) {
+		ScrapPaginaWeb prueba=new ScrapPaginaWeb(enlaceTemporada);
+     	ScrapTemporada tempScrap=new ScrapTemporada(prueba.getHtmlDocument());
+     	tempScrap.obtenPartidos();
 		
-		Controlador.insertaPartido("http://www.acb.com/fichas/LACB62001.php");
+		/*Controlador.insertaPartido("http://www.acb.com/fichas/LACB62001.php");
 		ScrapPaginaWeb prueba=new ScrapPaginaWeb("http://www.acb.com/fichas/LACB62001.php");
      	ScrapPartidoJugador partidoJugador=new ScrapPartidoJugador(prueba.getHtmlDocument());
      	partidoJugador.obtenPartidosJugadores();
+		*/
 		
+	}
+	
+	public static boolean existeJugador(String id) {
 		
+            HibernateUtil.openSessionAndBindToThread();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery("SELECT j FROM Jugador j WHERE id='"+id+"'");
+            List<Jugador> resultado = query.list();
+            HibernateUtil.closeSessionAndUnbindFromThread();
+            System.out.println(!resultado.isEmpty());
+            return !resultado.isEmpty();          
+    		
 	}
 }
 
