@@ -41,7 +41,7 @@ public class PartidoJugador implements Serializable {
 	@Column(name="intentosDos")
 	private int intentosDos;
 	
-	@Column(name="canastasDps")
+	@Column(name="canastasDos")
 	private int canastasDos;
 	
 	@Column(name="intentosTres")
@@ -93,14 +93,12 @@ public class PartidoJugador implements Serializable {
 	
 		
 	public PartidoJugador() {
-		super();
 	}
-	public PartidoJugador(String idJugador, Date minutos, int puntos, int intentosUno, int canastasUno, int intentosDos,
+	public PartidoJugador(Date minutos, int puntos, int intentosUno, int canastasUno, int intentosDos,
 			int canastasDos, int intentosTres, int canastasTres, int rebotesOfensivos, int rebotesDefensivos,
 			int asistencias, int robos, int perdidas, int taponesFavor, int taponesContra, int faltasFavor,
-			int faltasContra, int valoracion) {
+			int faltasContra, int valoracion, Jugador jugador, Partido partido) {
 		super();
-		this.idJugador = idJugador;
 		this.minutos = minutos;
 		this.puntos = puntos;
 		this.intentosUno = intentosUno;
@@ -119,6 +117,8 @@ public class PartidoJugador implements Serializable {
 		this.faltasFavor = faltasFavor;
 		this.faltasContra = faltasContra;
 		this.valoracion = valoracion;
+		this.jugador=jugador;
+		this.partido=partido;
 	}
 	public String getJugador() {
 		return idJugador;
@@ -243,7 +243,6 @@ public class PartidoJugador implements Serializable {
 	public String toString() {
 		String aux="";
 		aux+="********************************************************\n";
-		aux+="*  Id="+idJugador+"\n";
 		aux+="*  Minutos="+minutos+"\n";
 		aux+="*  Puntos="+puntos+"\n";
 		aux+="*  T1="+intentosUno+"\n";

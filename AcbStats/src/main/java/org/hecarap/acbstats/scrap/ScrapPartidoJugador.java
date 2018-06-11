@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hecarap.acbstats.controlador.Controlador;
+import org.hecarap.acbstats.modelo.Jugador;
+import org.hecarap.acbstats.modelo.Partido;
 import org.hecarap.acbstats.modelo.PartidoJugador;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,7 +17,6 @@ import org.jsoup.select.Elements;
 public class ScrapPartidoJugador {
 
 	private Document web;
-	private String idJugador;
 	private Date minutos;
 	private int puntos;
 	private int intentosUno;
@@ -35,10 +36,13 @@ public class ScrapPartidoJugador {
 	private int faltasFavor;
 	private int faltasContra;
 	private int valoracion;
-
-	public ScrapPartidoJugador(Document web) {
+	private int jugador;
+	private String idPartido;
+	
+	public ScrapPartidoJugador(Document web, String idPartido) {
 		super();
 		this.web = web;
+		this.idPartido=idPartido;
 	}
 	
 	
@@ -58,8 +62,10 @@ public class ScrapPartidoJugador {
 		}
 	
 	private boolean existeJugador(Element jugador) {
-		
 		String id=obtenIdJugador(jugador);
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////7
+		//No se porqué pero funciona
+		if (id==null) return true;
 		return Controlador.existeJugador(id);
 		
 	}
@@ -68,15 +74,18 @@ public class ScrapPartidoJugador {
 		if (!direccion.contains("www.acb.com")) {
 			direccion="http://www.acb.com"+direccion;
 		}
-		ScrapJugador jugador=new ScrapJugador(direccion);
-		Controlador.insertaJugador(jugador.getJugador());
+		try {
+			ScrapJugador jugador=new ScrapJugador(direccion);
+			Controlador.insertaJugador(jugador.getJugador());
+		} catch (JugadorNoValidoException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	private PartidoJugador creaPartidoJugador(Elements datosJugador) {
 			
 		if (haParticipado(datosJugador)) {
-			String id=obtenIdJugador(datosJugador);
 			Date minutos=obtenMinutosJugador(datosJugador);
 			int puntos=obtenPuntos(datosJugador);
 			int intentosDos=obtenIntentosDos(datosJugador);
@@ -96,15 +105,16 @@ public class ScrapPartidoJugador {
 			int faltasFavor=obtenFaltasFavor(datosJugador);
 			int faltasContra=obtenFaltasContra(datosJugador);
 			int valoracion=obtenValoracion(datosJugador);
-			
-			return new PartidoJugador(id,minutos,puntos,intentosUno,canastasUno,intentosDos,canastasDos,intentosTres,canastasTres,rebotesOfensivos,rebotesDefensivos,asistencias,robos,perdidas,taponesFavor,taponesContra,faltasFavor,
-			faltasContra,valoracion);
+			Jugador jugador=Controlador.obtenJugador(obtenIdJugador(datosJugador));
+			Partido partido=Controlador.obtenPartido(idPartido);
+			return new PartidoJugador(minutos,puntos,intentosUno,canastasUno,intentosDos,canastasDos,intentosTres,canastasTres,rebotesOfensivos,rebotesDefensivos,asistencias,robos,perdidas,taponesFavor,taponesContra,faltasFavor,
+			faltasContra,valoracion,jugador,partido);
 		}
 		return null;
 	}
 	private String obtenIdJugador(Elements datos) {
 		Element fila=datos.get(1);
-		String res="";
+		String res=null;
 		for (Node enlace : fila.childNodes()) {
 			if (tieneEnlaceJugador(enlace)){
 				String[] aux=enlace.toString().split("\"");
@@ -116,14 +126,21 @@ public class ScrapPartidoJugador {
 	}
 	
 	private String obtenIdJugador(Element datos) {
-		String res="";
+		System.out.println(datos);
+		String res=null;
 		for (Node enlace : datos.childNodes()) {
+			System.out.println(enlace);
 			if (tieneEnlaceJugador(enlace)){
-				String[] aux=enlace.toString().split("\"");
-				String[] temp=aux[1].split("=");
-				return temp[1];
+				//if (!esEnlaceVacio(enlace)){
+				if (!esEnlaceVacio(enlace)) {
+						esEnlaceVacio(enlace);
+						String[] aux=enlace.toString().split("\"");
+						String[] temp=aux[1].split("=");
+						res=temp[1];
+				}
 			}
 		}
+		System.out.println(res);
 		return res;
 	}
 	
@@ -237,6 +254,12 @@ public class ScrapPartidoJugador {
 	
 	private boolean tieneEnlaceJugador(Node enlace) {
 		return ((enlace instanceof TextNode)==false);
+	}
+	
+	private boolean esEnlaceVacio(Node enlace) {
+		String aux=enlace.toString();
+		String[] temp=aux.split("=");
+		return temp[1].charAt(0)=='\"';
 	}
 	private boolean haParticipado(Elements datos) {
 		Element fila=datos.get(2);

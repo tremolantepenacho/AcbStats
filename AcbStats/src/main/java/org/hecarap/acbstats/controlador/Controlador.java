@@ -29,7 +29,7 @@ public class Controlador {
             session.beginTransaction();
          	session.save(nuevo);
          	session.getTransaction().commit();
-         	System.out.println("Insertado el jugador:");
+        	System.out.println("Insertado el jugador:");
     		System.out.println(nuevo);
          } finally {
              HibernateUtil.closeSessionAndUnbindFromThread();
@@ -77,26 +77,41 @@ public static void insertaPartidoJugador(PartidoJugador nuevo) {
 		ScrapPaginaWeb prueba=new ScrapPaginaWeb(enlaceTemporada);
      	ScrapTemporada tempScrap=new ScrapTemporada(prueba.getHtmlDocument());
      	tempScrap.obtenPartidos();
-		
-		/*Controlador.insertaPartido("http://www.acb.com/fichas/LACB62001.php");
-		ScrapPaginaWeb prueba=new ScrapPaginaWeb("http://www.acb.com/fichas/LACB62001.php");
-     	ScrapPartidoJugador partidoJugador=new ScrapPartidoJugador(prueba.getHtmlDocument());
-     	partidoJugador.obtenPartidosJugadores();
-		*/
-		
+					
 	}
 	
 	public static boolean existeJugador(String id) {
-		
+		if (id==null) return false;
             HibernateUtil.openSessionAndBindToThread();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery("SELECT j FROM Jugador j WHERE id='"+id+"'");
             List<Jugador> resultado = query.list();
             HibernateUtil.closeSessionAndUnbindFromThread();
-            System.out.println(!resultado.isEmpty());
             return !resultado.isEmpty();          
     		
 	}
+	
+	public static Jugador obtenJugador(String id) {
+		try {
+            HibernateUtil.openSessionAndBindToThread();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+             return (Jugador)session.get(Jugador.class, id);
+         } finally {
+             HibernateUtil.closeSessionAndUnbindFromThread();
+         }    	        
+	}
+	public static Partido obtenPartido(String id) {
+		System.out.println("______________________"+id);
+		try {
+            HibernateUtil.openSessionAndBindToThread();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            System.out.println("!!!!!!!!!!!!!!!!!!!"+((Partido)session.get(Partido.class, id)).getId());
+            return (Partido)session.get(Partido.class, id);
+         } finally {
+             HibernateUtil.closeSessionAndUnbindFromThread();
+         }    	        
+	}
+	
 }
 
 

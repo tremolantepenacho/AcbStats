@@ -21,15 +21,20 @@ public class ScrapJugador {
 		this.jugador = jugador;
 	}
 	
-	public ScrapJugador(String direccion) {
+	public ScrapJugador(String direccion) throws JugadorNoValidoException {
 		if (!direccion.contains("www.acb.com")) {
 			direccion="http://www.acb.com"+direccion;
 		}
-		ScrapPaginaWeb paginaWeb=new ScrapPaginaWeb(direccion);//"http://www.acb.com/jugador.php?id=217");
-		Document jugador=paginaWeb.getHtmlDocument();
-		String[] aux=jugador.location().split("=");
-		codigo= aux[1];
-		this.jugador = jugador;
+		
+		try {
+			ScrapPaginaWeb paginaWeb=new ScrapPaginaWeb(direccion);;
+			Document jugador=paginaWeb.getHtmlDocument();
+			String[] aux=jugador.location().split("=");
+			codigo= aux[1];
+			this.jugador = jugador;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new JugadorNoValidoException("La web del jugador no existe");
+		}
 		
 	}
 	

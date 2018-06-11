@@ -20,8 +20,7 @@ public class Partido {
 
 	@Id
 	@Column(name="Id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private String id;
 	
 	@Column(name="temporada")
 	private int temporada;
@@ -56,7 +55,11 @@ public class Partido {
 	@OneToMany(mappedBy="partido",cascade= CascadeType.ALL)
 	private Set<PartidoJugador> jugadores;
 	
-	public Partido(String local, int puntosLocal, String visitante, int puntosVisitante, int temporada,int jornada, Date fecha, Time hora, String pabellon, int publico) {
+	public Partido() {
+	}
+	
+	public Partido(String id,String local, int puntosLocal, String visitante, int puntosVisitante, int temporada,int jornada, Date fecha, Time hora, String pabellon, int publico) {
+		this.id=id;
 		this.local=local;
 		this.visitante=visitante;
 		this.puntosLocal=puntosLocal;
@@ -68,8 +71,19 @@ public class Partido {
 		this.pabellon = pabellon;
 		this.publico = publico;
 	}
-		
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Set<PartidoJugador> getJugadores() {
+		return jugadores;
+	}
+	public void setJugadores(Set<PartidoJugador> jugadores) {
+		this.jugadores = jugadores;
+	}
 	public int getPuntosLocal() {
 		return puntosLocal;
 	}

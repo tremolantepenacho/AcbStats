@@ -24,7 +24,7 @@
     );
 
     create table Partido (
-        Id  serial not null,
+        Id varchar(255) not null,
         fecha timestamp,
         hora time,
         jornada int4,
@@ -41,12 +41,12 @@
     create table PartidoJugador (
         Id  serial not null,
         asistencias int4,
-        canastasDps int4,
+        canastasDos int4,
         canastasTres int4,
         canastasUno int4,
         faltasContra int4,
         faltasFavor int4,
-        idJugador varchar(255) unique,
+        idJugador varchar(255),
         intentosDos int4,
         intentosTres int4,
         intentosUno int4,
@@ -61,7 +61,7 @@
         taponesFavor int4,
         valoracion int4,
         jugador varchar(255),
-        partido int4,
+        partido varchar(255),
         primary key (Id)
     );
 

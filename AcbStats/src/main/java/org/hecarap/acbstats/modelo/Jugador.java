@@ -45,8 +45,7 @@ public class Jugador implements Serializable {
 	@OneToMany(mappedBy="jugador",cascade= CascadeType.ALL)
 	private Set<PartidoJugador> partidos;
 	
-	public Jugador() {
-		
+	public Jugador() {		
 	}
 	
 	public Jugador(String codigo,String nombre, String nacionalidad, String lugarNacimiento, double altura, Posicion posicion,

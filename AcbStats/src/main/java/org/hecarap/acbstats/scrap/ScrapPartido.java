@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 public class ScrapPartido {
 	
 	private Document web;
+	private String id;
 	private int temporada;
 	private int jornada;
 	private Date fecha;
@@ -29,6 +30,7 @@ public class ScrapPartido {
 	public ScrapPartido(Document partido) {
 		this.web=partido;
 		String[] aux=partido.location().split("LACB");
+		this.id=aux[1].substring(0,aux[1].indexOf('.'));
 		String temp=aux[1].substring(0,2);
 		temporada=Integer.parseInt(temp);
 	}	
@@ -110,9 +112,9 @@ public class ScrapPartido {
 		equipoVisitante=obtenVisitante();
 		puntosLocal=obtenPuntosLocal();
 		puntosVisitante=obtenPuntosVisitante();
+		System.out.println("************jornada"+jornada);
 		
-		
-		return new Partido(equipoLocal,puntosLocal,equipoVisitante,puntosVisitante,temporada,jornada,fecha,hora,pabellon,publico);
+		return new Partido(id,equipoLocal,puntosLocal,equipoVisitante,puntosVisitante,temporada,jornada,fecha,hora,pabellon,publico);
 	}
 	
 	private String obtenLocal() {
