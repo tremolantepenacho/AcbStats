@@ -1,9 +1,6 @@
 package org.hecarap.acbstats.scrap;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.hecarap.acbstats.controlador.Controlador;
 import org.hecarap.acbstats.modelo.Jugador;
 import org.hecarap.acbstats.modelo.Partido;
@@ -17,26 +14,6 @@ import org.jsoup.select.Elements;
 public class ScrapPartidoJugador {
 
 	private Document web;
-	private Date minutos;
-	private int puntos;
-	private int intentosUno;
-	private int canastasUno;
-	private int intentosDos;
-	private int canastasDos;
-	private int intentosTres;
-	private int canastasTres;
-	private int rebotesOfensivos;
-	private int rebotesDefensivos;
-	private int rebotes;
-	private int asistencias;
-	private int robos;
-	private int perdidas;
-	private int taponesFavor;
-	private int taponesContra;
-	private int faltasFavor;
-	private int faltasContra;
-	private int valoracion;
-	private int jugador;
 	private String idPartido;
 	
 	public ScrapPartidoJugador(Document web, String idPartido) {
@@ -62,6 +39,7 @@ public class ScrapPartidoJugador {
 		}
 	
 	private boolean existeJugador(Element jugador) {
+		System.out.println("existe="+jugador);
 		String id=obtenIdJugador(jugador);
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////7
 		//No se porqué pero funciona
@@ -96,7 +74,6 @@ public class ScrapPartidoJugador {
 			int canastasUno=obtenCanastasUno(datosJugador);
 			int rebotesOfensivos=obtenRebotesOfensivos(datosJugador);
 			int rebotesDefensivos=obtenRebotesDefensivos(datosJugador);
-			int rebotes=obtenRebotes(datosJugador);
 			int asistencias=obtenAsistencias(datosJugador);
 			int robos=obtenRobos(datosJugador);
 			int perdidas=obtenPerdidas(datosJugador);
@@ -105,33 +82,21 @@ public class ScrapPartidoJugador {
 			int faltasFavor=obtenFaltasFavor(datosJugador);
 			int faltasContra=obtenFaltasContra(datosJugador);
 			int valoracion=obtenValoracion(datosJugador);
-			Jugador jugador=Controlador.obtenJugador(obtenIdJugador(datosJugador));
+			Jugador jugador=Controlador.obtenJugador(obtenIdJugador(obtenFilaIdJugador(datosJugador)));
 			Partido partido=Controlador.obtenPartido(idPartido);
 			return new PartidoJugador(minutos,puntos,intentosUno,canastasUno,intentosDos,canastasDos,intentosTres,canastasTres,rebotesOfensivos,rebotesDefensivos,asistencias,robos,perdidas,taponesFavor,taponesContra,faltasFavor,
 			faltasContra,valoracion,jugador,partido);
 		}
 		return null;
 	}
-	private String obtenIdJugador(Elements datos) {
-		Element fila=datos.get(1);
-		String res=null;
-		for (Node enlace : fila.childNodes()) {
-			if (tieneEnlaceJugador(enlace)){
-				String[] aux=enlace.toString().split("\"");
-				String[] temp=aux[1].split("=");
-				return temp[1];
-			}
-		}
-		return res;
-	}
 	
-	private String obtenIdJugador(Element datos) {
-		System.out.println(datos);
+	private Element obtenFilaIdJugador(Elements datos) {
+		return datos.get(1);		
+	}
+	public String obtenIdJugador(Element datos) {
 		String res=null;
 		for (Node enlace : datos.childNodes()) {
-			System.out.println(enlace);
 			if (tieneEnlaceJugador(enlace)){
-				//if (!esEnlaceVacio(enlace)){
 				if (!esEnlaceVacio(enlace)) {
 						esEnlaceVacio(enlace);
 						String[] aux=enlace.toString().split("\"");
@@ -140,7 +105,6 @@ public class ScrapPartidoJugador {
 				}
 			}
 		}
-		System.out.println(res);
 		return res;
 	}
 	
@@ -206,11 +170,7 @@ public class ScrapPartidoJugador {
 		String[] total=dato.split("\\+");
 		return Integer.parseInt(total[1]);
 	}
-	private int obtenRebotes(Elements datos) {
-		Element fila=datos.get(10);
-		String dato=fila.childNode(0).toString();
-		return Integer.parseInt(dato);
-	}
+
 	private int obtenAsistencias(Elements datos) {
 		Element fila=datos.get(12);
 		String dato=fila.childNode(0).toString();
@@ -252,18 +212,23 @@ public class ScrapPartidoJugador {
 		return Integer.parseInt(dato);
 	}
 	
-	private boolean tieneEnlaceJugador(Node enlace) {
+	public boolean tieneEnlaceJugador(Node enlace) {
 		return ((enlace instanceof TextNode)==false);
 	}
 	
-	private boolean esEnlaceVacio(Node enlace) {
+	public boolean esEnlaceVacio(Node enlace) {
 		String aux=enlace.toString();
 		String[] temp=aux.split("=");
-		return temp[1].charAt(0)=='\"';
+		return temp[temp.length-1].charAt(0)=='\"';
 	}
-	private boolean haParticipado(Elements datos) {
-		Element fila=datos.get(2);
-		String dato=fila.childNode(0).toString();
-		return !dato.equals("&nbsp;");
+	public boolean haParticipado(Elements datos) {	
+		try {
+			Element fila=datos.get(2);
+			String dato=fila.childNode(0).toString();
+			return !dato.equals("&nbsp;");
+		}
+		catch(IndexOutOfBoundsException iobe) {
+			return false;
+		}
 	}
 }

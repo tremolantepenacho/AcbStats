@@ -73,7 +73,7 @@ public static void insertaPartidoJugador(PartidoJugador nuevo) {
 		new org.hibernate.tool.hbm2ddl.SchemaExport(HibernateUtil.getConfiguration()).setOutputFile("script.sql").setDelimiter(";").create(true, true);
 	}
 	
-	public static void insertaJornada(String enlaceTemporada) {
+	public static void insertaTemporada(String enlaceTemporada) {
 		ScrapPaginaWeb prueba=new ScrapPaginaWeb(enlaceTemporada);
      	ScrapTemporada tempScrap=new ScrapTemporada(prueba.getHtmlDocument());
      	tempScrap.obtenPartidos();
@@ -101,11 +101,9 @@ public static void insertaPartidoJugador(PartidoJugador nuevo) {
          }    	        
 	}
 	public static Partido obtenPartido(String id) {
-		System.out.println("______________________"+id);
 		try {
             HibernateUtil.openSessionAndBindToThread();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            System.out.println("!!!!!!!!!!!!!!!!!!!"+((Partido)session.get(Partido.class, id)).getId());
             return (Partido)session.get(Partido.class, id);
          } finally {
              HibernateUtil.closeSessionAndUnbindFromThread();

@@ -59,6 +59,7 @@ public class ScrapJugador {
 		nacionalidad= getNacionalidad(entradas.get(3));
 		pass= getPasaporte(entradas.get(3));
 				
+		System.out.println(nombre);
 		return new Jugador(codigo,nombre,nacionalidad,lugarNacimiento,altura,pos,pass,fechaNacimiento);
 	}
 	
@@ -101,10 +102,18 @@ public class ScrapJugador {
 	}
 	
 	private Pasaporte getPasaporte(Element e) {
+		
 		String[] aux= e.text().split("\\|");
-		aux[1]= aux[1].trim();	
-		if (aux[1].equals("EUR")) return Pasaporte.EUROPEO;
-		if (aux[1].equals("EXT")) return Pasaporte.EXTRACOMUNITARIO;
-		return Pasaporte.CUPO;
+		for (int i=0;i<aux.length;i++) {
+			System.out.println("%"+aux[i]);
+		}
+		System.out.println("long="+aux.length);
+		if (aux.length>1) {
+			aux[1]= aux[1].trim();			
+			if (aux[1].equals("EUR")) return Pasaporte.EUROPEO;
+			if (aux[1].equals("EXT")) return Pasaporte.EXTRACOMUNITARIO;
+			return Pasaporte.CUPO;
+		}
+		return Pasaporte.NODETERMINADO;
 	}
 }

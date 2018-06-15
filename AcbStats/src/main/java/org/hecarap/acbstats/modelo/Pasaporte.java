@@ -1,5 +1,5 @@
 package org.hecarap.acbstats.modelo;
 
 public enum Pasaporte {
-	CUPO, EUROPEO, EXTRACOMUNITARIO
+	CUPO, EUROPEO, EXTRACOMUNITARIO, NODETERMINADO
 }
