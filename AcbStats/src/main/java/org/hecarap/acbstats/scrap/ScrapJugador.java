@@ -24,8 +24,7 @@ public class ScrapJugador {
 	public ScrapJugador(String direccion) throws JugadorNoValidoException {
 		if (!direccion.contains("www.acb.com")) {
 			direccion="http://www.acb.com"+direccion;
-		}
-		
+		}		
 		try {
 			ScrapPaginaWeb paginaWeb=new ScrapPaginaWeb(direccion);;
 			Document jugador=paginaWeb.getHtmlDocument();
@@ -59,7 +58,6 @@ public class ScrapJugador {
 		nacionalidad= getNacionalidad(entradas.get(3));
 		pass= getPasaporte(entradas.get(3));
 				
-		System.out.println(nombre);
 		return new Jugador(codigo,nombre,nacionalidad,lugarNacimiento,altura,pos,pass,fechaNacimiento);
 	}
 	
@@ -105,9 +103,7 @@ public class ScrapJugador {
 		
 		String[] aux= e.text().split("\\|");
 		for (int i=0;i<aux.length;i++) {
-			System.out.println("%"+aux[i]);
 		}
-		System.out.println("long="+aux.length);
 		if (aux.length>1) {
 			aux[1]= aux[1].trim();			
 			if (aux[1].equals("EUR")) return Pasaporte.EUROPEO;

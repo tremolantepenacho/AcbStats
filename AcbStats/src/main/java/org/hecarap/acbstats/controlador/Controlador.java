@@ -29,8 +29,6 @@ public class Controlador {
             session.beginTransaction();
          	session.save(nuevo);
          	session.getTransaction().commit();
-        	System.out.println("Insertado el jugador:");
-    		System.out.println(nuevo);
          } finally {
              HibernateUtil.closeSessionAndUnbindFromThread();
          }        
@@ -75,9 +73,8 @@ public static void insertaPartidoJugador(PartidoJugador nuevo) {
 	
 	public static void insertaTemporada(String enlaceTemporada) {
 		ScrapPaginaWeb prueba=new ScrapPaginaWeb(enlaceTemporada);
-     	ScrapTemporada tempScrap=new ScrapTemporada(prueba.getHtmlDocument());
+     	ScrapTemporada tempScrap=new ScrapTemporada(prueba.getHtmlDocument());	
      	tempScrap.obtenPartidos();
-					
 	}
 	
 	public static boolean existeJugador(String id) {

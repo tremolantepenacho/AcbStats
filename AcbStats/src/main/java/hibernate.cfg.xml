@@ -19,8 +19,10 @@
         <!-- property name="hibernate.hbm2ddl.auto">create-drop</property -->
  
         <!-- Annotated entity classes -->
+        <mapping class="org.hecarap.acbstats.modelo.TemporadaJugador"/>
         <mapping class="org.hecarap.acbstats.modelo.PartidoJugador"/>
         <mapping class="org.hecarap.acbstats.modelo.Jugador"/>
         <mapping class="org.hecarap.acbstats.modelo.Partido"/>
+        
     </session-factory>
 </hibernate-configuration>

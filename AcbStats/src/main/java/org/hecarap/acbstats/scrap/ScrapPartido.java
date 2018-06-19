@@ -112,7 +112,6 @@ public class ScrapPartido {
 		equipoVisitante=obtenVisitante();
 		puntosLocal=obtenPuntosLocal();
 		puntosVisitante=obtenPuntosVisitante();
-		System.out.println("************jornada"+jornada);
 		
 		return new Partido(id,equipoLocal,puntosLocal,equipoVisitante,puntosVisitante,temporada,jornada,fecha,hora,pabellon,publico);
 	}

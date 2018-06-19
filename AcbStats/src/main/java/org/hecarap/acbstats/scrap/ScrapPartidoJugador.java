@@ -27,37 +27,34 @@ public class ScrapPartidoJugador {
 			
 			Elements entradas=web.getElementsByClass("naranjaclaro");
 			for (Element jugador : entradas) {
-					if (tieneEnlaceJugador(jugador.childNode(0)) && !existeJugador(jugador)) {
-						insertaJugador(jugador.childNode(0).attr("href"));
-					}
-					Elements padre=jugador.parent().children();
-					PartidoJugador nuevoPartidoJugador=creaPartidoJugador(padre);
-					if (nuevoPartidoJugador!=null) {
-						Controlador.insertaPartidoJugador(nuevoPartidoJugador);
+					try {
+						if (tieneEnlaceJugador(jugador.childNode(0)) && !existeJugador(jugador)) {
+							insertaJugador(jugador.childNode(0).attr("href"));
+						}
+						Elements padre=jugador.parent().children();
+						PartidoJugador nuevoPartidoJugador=creaPartidoJugador(padre);
+						if (nuevoPartidoJugador!=null) {
+							Controlador.insertaPartidoJugador(nuevoPartidoJugador);
+						}
+					} catch (JugadorNoValidoException jnve) {
+						jnve.printStackTrace();
 					}
 			}
 		}
 	
 	private boolean existeJugador(Element jugador) {
-		System.out.println("existe="+jugador);
-		String id=obtenIdJugador(jugador);
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////7
-		//No se porqué pero funciona
-		if (id==null) return true;
+		String id=obtenIdJugador(jugador);	
 		return Controlador.existeJugador(id);
 		
 	}
 	
-	private void insertaJugador(String direccion) {
+	private void insertaJugador(String direccion) throws JugadorNoValidoException {
 		if (!direccion.contains("www.acb.com")) {
 			direccion="http://www.acb.com"+direccion;
 		}
-		try {
-			ScrapJugador jugador=new ScrapJugador(direccion);
-			Controlador.insertaJugador(jugador.getJugador());
-		} catch (JugadorNoValidoException e) {
-			e.printStackTrace();
-		}
+		ScrapJugador jugador=new ScrapJugador(direccion);
+		Controlador.insertaJugador(jugador.getJugador());
+			
 		
 	}
 	
