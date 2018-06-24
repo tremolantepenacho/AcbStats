@@ -23,11 +23,17 @@ public class PartidoJugador implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="temporada")
+	private int temporada;
+	
 	@Column(name="idJugador")
 	private String idJugador;
 	
 	@Column(name="minutos")
-	private Date minutos;
+	private int minutos;
+	
+	@Column(name="segundos")
+	private int segundos;
 	
 	@Column(name="puntos")
 	private int puntos;
@@ -94,12 +100,14 @@ public class PartidoJugador implements Serializable {
 		
 	public PartidoJugador() {
 	}
-	public PartidoJugador(Date minutos, int puntos, int intentosUno, int canastasUno, int intentosDos,
+	public PartidoJugador(int temporada, int minutos,int segundos, int puntos, int intentosUno, int canastasUno, int intentosDos,
 			int canastasDos, int intentosTres, int canastasTres, int rebotesOfensivos, int rebotesDefensivos,
 			int asistencias, int robos, int perdidas, int taponesFavor, int taponesContra, int faltasFavor,
 			int faltasContra, int valoracion, Jugador jugador, Partido partido) {
 		super();
+		this.temporada=temporada;
 		this.minutos = minutos;
+		this.segundos=segundos;
 		this.puntos = puntos;
 		this.intentosUno = intentosUno;
 		this.canastasUno = canastasUno;
@@ -120,17 +128,45 @@ public class PartidoJugador implements Serializable {
 		this.jugador=jugador;
 		this.partido=partido;
 	}
+	
+	public int getTemporada() {
+		return temporada;
+	}
+	public void setTemporada(int temporada) {
+		this.temporada = temporada;
+	}
+	public String getIdJugador() {
+		return idJugador;
+	}
+	public void setIdJugador(String idJugador) {
+		this.idJugador = idJugador;
+	}
+	public Partido getPartido() {
+		return partido;
+	}
+	public void setPartido(Partido partido) {
+		this.partido = partido;
+	}
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
 	public String getJugador() {
 		return idJugador;
 	}
 	public void setJugador(String jugador) {
 		this.idJugador = jugador;
 	}
-	public Date getMinutos() {
+	public int getMinutos() {
 		return minutos;
 	}
-	public void setMinutos(Date minutos) {
+	public void setMinutos(int minutos) {
 		this.minutos = minutos;
+	}	
+	public int getSegundos() {
+		return segundos;
+	}
+	public void setSegundos(int segundos) {
+		this.segundos = segundos;
 	}
 	public int getPuntos() {
 		return puntos;
@@ -243,7 +279,7 @@ public class PartidoJugador implements Serializable {
 	public String toString() {
 		String aux="";
 		aux+="********************************************************\n";
-		aux+="*  Minutos="+minutos+"\n";
+		aux+="*  Tiempo="+minutos+":"+segundos+"\n";
 		aux+="*  Puntos="+puntos+"\n";
 		aux+="*  T1="+intentosUno+"\n";
 		aux+="*  C1="+canastasUno+"\n";

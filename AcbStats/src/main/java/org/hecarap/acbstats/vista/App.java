@@ -14,6 +14,7 @@ public class App
     	Controlador.inicia();
     	Controlador.creaEsquema();
     	Controlador.insertaTemporada("http://acb.com/calendario.php?cod_competicion=LACB&cod_edicion=62&vd=1&vh=34");
+    	//Controlador.creaTemporadaJugador(62);
     	Controlador.finaliza();
      	}
     

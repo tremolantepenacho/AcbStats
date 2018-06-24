@@ -15,6 +15,7 @@ public class ScrapPartidoJugador {
 
 	private Document web;
 	private String idPartido;
+	int temporada;
 	
 	public ScrapPartidoJugador(Document web, String idPartido) {
 		super();
@@ -61,7 +62,8 @@ public class ScrapPartidoJugador {
 	private PartidoJugador creaPartidoJugador(Elements datosJugador) {
 			
 		if (haParticipado(datosJugador)) {
-			Date minutos=obtenMinutosJugador(datosJugador);
+			int minutos=obtenMinutosJugador(datosJugador);
+			int segundos=obtenSegundosJugador(datosJugador);
 			int puntos=obtenPuntos(datosJugador);
 			int intentosDos=obtenIntentosDos(datosJugador);
 			int canastasDos=obtenCanastasDos(datosJugador);
@@ -81,7 +83,7 @@ public class ScrapPartidoJugador {
 			int valoracion=obtenValoracion(datosJugador);
 			Jugador jugador=Controlador.obtenJugador(obtenIdJugador(obtenFilaIdJugador(datosJugador)));
 			Partido partido=Controlador.obtenPartido(idPartido);
-			return new PartidoJugador(minutos,puntos,intentosUno,canastasUno,intentosDos,canastasDos,intentosTres,canastasTres,rebotesOfensivos,rebotesDefensivos,asistencias,robos,perdidas,taponesFavor,taponesContra,faltasFavor,
+			return new PartidoJugador(partido.getTemporada(),minutos,segundos,puntos,intentosUno,canastasUno,intentosDos,canastasDos,intentosTres,canastasTres,rebotesOfensivos,rebotesDefensivos,asistencias,robos,perdidas,taponesFavor,taponesContra,faltasFavor,
 			faltasContra,valoracion,jugador,partido);
 		}
 		return null;
@@ -105,13 +107,20 @@ public class ScrapPartidoJugador {
 		return res;
 	}
 	
-	private Date obtenMinutosJugador(Elements datos) {
+	private String obtenTiempoJugador(Elements datos) {
 		Element fila=datos.get(2);
 		String dato=fila.childNode(0).toString();
-		String[] aux=dato.split(":");
-		int min=Integer.parseInt(aux[0]);
-		int segundos=Integer.parseInt(aux[1]);
-		return new Date(0,0,0,0,min,segundos);
+		return dato;		
+	}
+	private int obtenMinutosJugador(Elements datos) {
+		String tiempo=obtenTiempoJugador(datos);
+		String[] aux=tiempo.split(":");
+		return Integer.parseInt(aux[0]);		
+	}
+	private int obtenSegundosJugador(Elements datos) {
+		String tiempo=obtenTiempoJugador(datos);
+		String[] aux=tiempo.split(":");
+		return Integer.parseInt(aux[1]);		
 	}
 	
 	private int obtenPuntos(Elements datos) {

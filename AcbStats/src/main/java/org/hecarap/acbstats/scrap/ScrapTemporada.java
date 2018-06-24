@@ -14,15 +14,19 @@ import org.jsoup.select.Elements;
 public class ScrapTemporada {
 
 
-	Document temporada;
+	Document docTemporada;
+	String nombreTemporada;
+	int numTemporada;
 
-	public ScrapTemporada(Document temporada) {
-		this.temporada = temporada;
+	public ScrapTemporada(Document docTemporada) {
+		this.docTemporada = docTemporada;
+		nombreTemporada=obtenNombreTemporada();
+		numTemporada=obtenNumTemporada();
 	}
 	
 	public void obtenPartidos() {
 		
-			Elements entradas = temporada.getElementsByClass("negro");
+		Elements entradas = docTemporada.getElementsByClass("negro");
 		
 		for (Element elem : entradas) {
 			Elements nodosHijo=elem.children();
@@ -37,6 +41,17 @@ public class ScrapTemporada {
 			}
 			
 		}
+	}
+	public String obtenNombreTemporada() {
+		Elements entradas= docTemporada.getElementsByClass("titulomenuclubs");
+		String[] aux=entradas.get(0).toString().split("-");
+		return aux[0].trim();
+	}
+	
+	public int obtenNumTemporada() {
+		String[] aux=docTemporada.location().split("=");
+		String[] res=aux[2].split("&");
+		return Integer.parseInt(res[0]);
 	}
 	
 }

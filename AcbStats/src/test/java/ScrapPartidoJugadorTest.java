@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import junit.framework.Assert;
 
@@ -32,7 +34,13 @@ public class ScrapPartidoJugadorTest {
 	Element tdParticipado2;
 	Element tdJugadorParticipado;
 	
+	@Mock
+    private Element elementMock;
 
+   // @InjectMocks
+   // private CustomerService service;
+	
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
@@ -44,6 +52,8 @@ public class ScrapPartidoJugadorTest {
 
 	@Before
 	public void setUp() throws Exception {
+		
+		MockitoAnnotations.initMocks(this);
 		
 		paginaWeb=new ScrapPaginaWeb("http://www.acb.com/fichas/LACB62329.php");
 		partidoDocument=paginaWeb.getHtmlDocument();
