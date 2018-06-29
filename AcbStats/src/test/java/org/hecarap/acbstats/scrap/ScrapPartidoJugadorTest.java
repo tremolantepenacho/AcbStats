@@ -1,3 +1,4 @@
+package org.hecarap.acbstats.scrap;
 import static org.junit.Assert.*;
 
 import org.hecarap.acbstats.scrap.ScrapPaginaWeb;
